@@ -1,25 +1,917 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的主页</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Songlin Dong | 董松林</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1814;
+      --ink-2: #3d3a35;
+      --ink-3: #6b6760;
+      --paper: #f7f4ef;
+      --paper-2: #ede9e1;
+      --paper-3: #e3ddd4;
+      --accent: #c0392b;
+      --accent-2: #e07b5a;
+      --gold: #c9a96e;
+      --blue: #2563a8;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(247,244,239,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--paper-3);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 5rem;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem 4rem 4rem 3rem;
+      position: relative;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 15%; bottom: 15%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--paper-3), transparent);
+    }
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 5vw, 5rem);
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .hero-name-zh {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      color: var(--ink-3);
+      margin-bottom: 2rem;
+    }
+    .hero-position {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      margin-bottom: 0.4rem;
+    }
+    .hero-affil {
+      font-size: 0.9rem;
+      color: var(--ink-3);
+      margin-bottom: 2.5rem;
+    }
+    .hero-affil a { color: var(--blue); text-decoration: none; }
+    .hero-affil a:hover { text-decoration: underline; }
+
+    .hero-bio {
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      max-width: 480px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px solid var(--paper-3);
+    }
+    .btn-outline:hover {
+      border-color: var(--ink-2);
+      color: var(--ink);
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 3rem 4rem 4rem;
+      gap: 2rem;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--paper-3);
+      width: 100%;
+      max-width: 380px;
+      border: 1px solid var(--paper-3);
+    }
+    .stat-cell {
+      background: var(--paper);
+      padding: 1.5rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .research-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      max-width: 380px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--paper-3);
+      color: var(--ink-3);
+      border-radius: 1px;
+      background: var(--paper-2);
+    }
+    .tag.primary {
+      border-color: var(--accent-2);
+      color: var(--accent);
+      background: #fdf5f3;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 6rem 3rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--ink);
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--paper-3);
+    }
+
+    /* ── NEWS ── */
+    .news-list { display: flex; flex-direction: column; gap: 0; }
+    .news-item {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 1.5rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--paper-2);
+      align-items: baseline;
+    }
+    .news-date {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      padding-top: 0.15rem;
+    }
+    .news-text {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      line-height: 1.6;
+    }
+    .news-text strong { color: var(--ink); font-weight: 500; }
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.5rem;
+      border-radius: 1px;
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+    .badge-cvpr { background: #dbeafe; color: #1e40af; }
+    .badge-aaai { background: #fef9c3; color: #854d0e; }
+    .badge-iccv { background: #f3e8ff; color: #6b21a8; }
+    .badge-eccv { background: #dcfce7; color: #166534; }
+    .badge-acl  { background: #fce7f3; color: #9d174d; }
+    .badge-journal { background: #e0f2fe; color: #075985; }
+    .badge-new  { background: var(--accent); color: white; }
+
+    /* ── PUBLICATIONS ── */
+    .pub-list { display: flex; flex-direction: column; gap: 2rem; }
+    .pub-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      padding: 1.75rem;
+      background: var(--paper-2);
+      border: 1px solid var(--paper-3);
+      border-left: 3px solid transparent;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .pub-item:hover {
+      background: white;
+      border-left-color: var(--accent);
+    }
+    .pub-year {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--paper-3);
+      line-height: 1;
+      min-width: 3rem;
+      text-align: center;
+      padding-top: 0.2rem;
+    }
+    .pub-content { flex: 1; }
+    .pub-venue-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      background: var(--ink);
+      color: var(--paper);
+      border-radius: 1px;
+      margin-bottom: 0.6rem;
+    }
+    .pub-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.5;
+      margin-bottom: 0.4rem;
+    }
+    .pub-title a { color: inherit; text-decoration: none; }
+    .pub-title a:hover { color: var(--accent); }
+    .pub-authors {
+      font-size: 0.82rem;
+      color: var(--ink-3);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+    .pub-authors strong { color: var(--ink-2); font-weight: 500; }
+    .pub-links { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; }
+    .pub-link {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blue);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s;
+    }
+    .pub-link:hover { border-bottom-color: var(--blue); }
+    .pub-link + .pub-link::before {
+      content: '·';
+      color: var(--paper-3);
+      margin-right: 0.5rem;
+    }
+
+    /* ── SERVICE ── */
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .service-card {
+      padding: 1.75rem;
+      background: var(--paper-2);
+      border: 1px solid var(--paper-3);
+    }
+    .service-card h3 {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 1rem;
+    }
+    .service-list { list-style: none; }
+    .service-list li {
+      font-size: 0.88rem;
+      color: var(--ink-2);
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--paper-3);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .service-list li:last-child { border-bottom: none; }
+    .service-list li::before {
+      content: '—';
+      color: var(--gold);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* ── STUDENTS ── */
+    .student-note {
+      padding: 2rem;
+      border: 1px dashed var(--paper-3);
+      background: #fffdf8;
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      line-height: 1.7;
+    }
+    .student-note strong { color: var(--accent); }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .contact-block { }
+    .contact-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .contact-value {
+      font-size: 0.95rem;
+      color: var(--ink-2);
+    }
+    .contact-value a { color: var(--blue); text-decoration: none; }
+    .contact-value a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--paper-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--ink-3);
+      letter-spacing: 0.06em;
+    }
+    .footer-copy a { color: inherit; text-decoration: none; }
+
+    /* ── DIVIDERS ── */
+    .divider {
+      max-width: 1000px;
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--paper-3), transparent);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.6s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 6rem 1.5rem 2rem; }
+      .hero-left::after { display: none; }
+      .hero-right { padding: 2rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      .service-grid, .contact-grid { grid-template-columns: 1fr; }
+      .pub-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .pub-year { font-size: 0.8rem; color: var(--gold); text-align: left; }
+    }
+  </style>
 </head>
 <body>
-    <h1>欢迎来到我的个人网站！</h1>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Songlin Dong</a>
+  <ul class="nav-links">
+    <li><a href="#news">News</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#service">Service</a></li>
+    <li><a href="#students">Students</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow fade-up">Assistant Professor · SUAT</div>
+    <h1 class="hero-name fade-up delay-1">Songlin Dong</h1>
+    <div class="hero-name-zh fade-up delay-1">董松林</div>
+
+    <p class="hero-position fade-up delay-2">Assistant Professor (副高), Ph.D. Supervisor</p>
+    <p class="hero-affil fade-up delay-2">
+      Faculty of Computility Microelectronics (算力微电子学院)<br>
+      <a href="https://www.suat-sz.edu.cn" target="_blank">Shenzhen University of Advanced Technology (SUAT)</a>
+    </p>
+
+    <p class="hero-bio fade-up delay-3">
+      My research focuses on <strong>continual learning</strong>, <strong>multimodal large language models</strong>,
+      and <strong>embodied AI</strong>. I received my Ph.D. from Xi'an Jiaotong University (2025)
+      and joined SUAT the same year. I have published 10+ papers at top venues (CVPR, AAAI, ICCV, ECCV)
+      and 12+ journal papers (TNNLS, TMM, TCSVT).
+    </p>
+
+    <div class="hero-links fade-up delay-4">
+      <a href="mailto:dongsl@suat-sz.edu.cn" class="btn btn-primary">
+        ✉ Email
+      </a>
+      <a href="https://scholar.google.com/citations?user=nD-QpuYAAAAJ&hl=en" target="_blank" class="btn btn-outline">
+        Google Scholar
+      </a>
+      <a href="https://dblp.org/pid/263/7064.html" target="_blank" class="btn btn-outline">
+        DBLP
+      </a>
+      <a href="https://orcid.org/0000-0001-7854-3417" target="_blank" class="btn btn-outline">
+        ORCID
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-right fade-up delay-3">
+    <div class="stat-grid">
+      <div class="stat-cell">
+        <div class="stat-num">1,200+</div>
+        <div class="stat-label">Citations</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">22+</div>
+        <div class="stat-label">Publications</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Top Conf. Papers</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Invention Patents</div>
+      </div>
+    </div>
+
+    <div class="research-tags">
+      <span class="tag primary">Continual Learning</span>
+      <span class="tag primary">Multimodal LLMs</span>
+      <span class="tag primary">Embodied AI</span>
+      <span class="tag">Class-Incremental Learning</span>
+      <span class="tag">Vision-Language Models</span>
+      <span class="tag">Knowledge Transfer</span>
+      <span class="tag">Anti-Forgetting</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Recent News</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="news-list">
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-new">New</span>
+        Joined <strong>Shenzhen University of Advanced Technology (SUAT)</strong> as Assistant Professor in the Faculty of Computility Microelectronics (算力微电子学院).
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-acl">ACL Findings</span>
+        Paper <em>"SuLoRA: Subspace Low-Rank Adaptation for Parameter-Efficient Fine-Tuning"</em> accepted at ACL 2025.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-aaai">AAAI 2025</span>
+        Paper <em>"DualCP: Rehearsal-Free Domain-Incremental Learning via Dual-Level Concept Prototype"</em> accepted at AAAI 2025.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-journal">TCSVT</span>
+        Paper <em>"CEAT: Continual Expansion and Absorption Transformer for Non-Exemplar Class-Incremental Learning"</em> published in IEEE T-CSVT.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-journal">TMM</span>
+        Paper <em>"Analogical Augmentation and Significance Analysis for Online Task-Free Continual Learning"</em> published in IEEE T-MM.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-journal">T-MI</span>
+        Paper <em>"Cross-Domain Invariant Feature Absorption and Domain-Specific Feature Retention for Domain Incremental Chest X-Ray Classification"</em> published in IEEE T-MI.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2025.01</span>
+      <div class="news-text">
+        <span class="badge badge-journal">Pattern Recog.</span>
+        Paper <em>"Diversity covariance-aware prompt learning for vision-language models"</em> published in Pattern Recognition (2026).
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2023.10</span>
+      <div class="news-text">
+        <span class="badge badge-iccv">ICCV 2023</span>
+        Paper <em>"Knowledge Restore and Transfer for Multi-Label Class-Incremental Learning"</em> accepted at ICCV 2023.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2023.06</span>
+      <div class="news-text">
+        <span class="badge badge-cvpr">CVPR 2023</span>
+        Paper <em>"DKT: Diverse Knowledge Transfer Transformer for Class Incremental Learning"</em> accepted at CVPR 2023.
+      </div>
+    </div>
+    <div class="news-item">
+      <span class="news-date">2021.02</span>
+      <div class="news-text">
+        <span class="badge badge-aaai">AAAI 2021</span>
+        First-author paper <em>"Few-Shot Class-Incremental Learning via Relation Knowledge Distillation"</em> accepted at AAAI 2021.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Selected Publications</h2>
+    <div class="section-line"></div>
+  </div>
+  <p style="font-size:0.85rem; color:var(--ink-3); margin-bottom:2rem; font-family:var(--mono);">
+    * denotes equal contribution. Full list on <a href="https://scholar.google.com/citations?user=nD-QpuYAAAAJ&hl=en" style="color:var(--blue)">Google Scholar</a> and <a href="https://dblp.org/pid/263/7064.html" style="color:var(--blue)">DBLP</a>.
+  </p>
+  <div class="pub-list">
+
+    <div class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">ACL Findings 2025</div>
+        <div class="pub-title">SuLoRA: Subspace Low-Rank Adaptation for Parameter-Efficient Fine-Tuning</div>
+        <div class="pub-authors">Chenhao Ding, Jiangyang Li, <strong>Songlin Dong</strong>, Xinyuan Gao, Yuhang He, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://aclanthology.org/2025.findings-acl.278/" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">AAAI 2025</div>
+        <div class="pub-title">DualCP: Rehearsal-Free Domain-Incremental Learning via Dual-Level Concept Prototype</div>
+        <div class="pub-authors">Qiang Wang, Yuhang He, <strong>Songlin Dong</strong>, Xiang Song, Jizhou Han, Haoyu Luo, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://doi.org/10.1609/aaai.v39i20.35418" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">IEEE T-CSVT 2025</div>
+        <div class="pub-title">CEAT: Continual Expansion and Absorption Transformer for Non-Exemplar Class-Incremental Learning</div>
+        <div class="pub-authors"><strong>Songlin Dong</strong>, Xinyuan Gao, Yuhang He, Zhengdong Zhou, Alex C. Kot, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://doi.org/10.1109/TCSVT.2024.3502837" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">IEEE T-MM 2025</div>
+        <div class="pub-title">Analogical Augmentation and Significance Analysis for Online Task-Free Continual Learning</div>
+        <div class="pub-authors"><strong>Songlin Dong</strong>, Yingjie Chen, Yuhang He, Yuhan Jin, Alex C. Kot, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://doi.org/10.1109/TMM.2025.3535384" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">ICCV 2023</div>
+        <div class="pub-title">Knowledge Restore and Transfer for Multi-Label Class-Incremental Learning</div>
+        <div class="pub-authors"><strong>Songlin Dong</strong>, Haoyu Luo, Yuhang He, Xing Wei, Jie Cheng, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://openaccess.thecvf.com/ICCV2023" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">CVPR 2023</div>
+        <div class="pub-title">DKT: Diverse Knowledge Transfer Transformer for Class Incremental Learning</div>
+        <div class="pub-authors">Xinyuan Gao, Yuhang He, <strong>Songlin Dong</strong>, Jie Cheng, Xing Wei, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://openaccess.thecvf.com/CVPR2023" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2024</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">AAAI 2024</div>
+        <div class="pub-title">Non-exemplar Domain Incremental Object Detection via Learning Domain Bias</div>
+        <div class="pub-authors">Xiang Song, Yuhang He, <strong>Songlin Dong</strong>, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="#" class="pub-link">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">IEEE T-NNLS 2023</div>
+        <div class="pub-title">Model Behavior Preserving for Class-Incremental Learning</div>
+        <div class="pub-authors">Yu Liu, Xiaopeng Hong, Xiaoyu Tao, <strong>Songlin Dong</strong>, Jingang Shi, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://doi.org/10.1109/TNNLS.2021.3055584" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2021</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">AAAI 2021</div>
+        <div class="pub-title">Few-Shot Class-Incremental Learning via Relation Knowledge Distillation</div>
+        <div class="pub-authors"><strong>Songlin Dong</strong>, Xiaopeng Hong, Xiaoyu Tao, Xinyuan Chang, Xing Wei, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://ojs.aaai.org/index.php/AAAI/article/view/16213" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2020</div>
+      <div class="pub-content">
+        <div class="pub-venue-badge">CVPR 2020</div>
+        <div class="pub-title">Few-Shot Class-Incremental Learning</div>
+        <div class="pub-authors">Xiaoyu Tao, Xiaopeng Hong, Xinyuan Chang, <strong>Songlin Dong</strong>, Xing Wei, Yihong Gong</div>
+        <div class="pub-links">
+          <a href="https://openaccess.thecvf.com/content_CVPR_2020/html/Tao_Few-Shot_Class-Incremental_Learning_CVPR_2020_paper.html" class="pub-link" target="_blank">Paper</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICE -->
+<section id="service">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Academic Service</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="service-grid">
+    <div class="service-card">
+      <h3>Conference Reviewing</h3>
+      <ul class="service-list">
+        <li>CVPR (2022–2025)</li>
+        <li>ICCV (2023–2025)</li>
+        <li>ECCV (2022–2024)</li>
+        <li>NeurIPS (2023–2025)</li>
+        <li>AAAI (2022–2025)</li>
+        <li>ACMMM (2022–2024)</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <h3>Journal Reviewing</h3>
+      <ul class="service-list">
+        <li>IEEE Transactions on Neural Networks and Learning Systems (TNNLS)</li>
+        <li>IEEE Transactions on Multimedia (TMM)</li>
+        <li>IEEE Transactions on Circuits and Systems for Video Technology (TCSVT)</li>
+        <li>Pattern Recognition</li>
+        <li>IEEE Transactions on Medical Imaging (T-MI)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STUDENTS -->
+<section id="students">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Prospective Students</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="student-note">
+    <p>I am actively looking for <strong>Ph.D. students, Master students, Research Assistants, and Research Interns</strong>
+    who are passionate about AI research in continual learning, multimodal LLMs, and embodied intelligence.</p>
+    <br>
+    <p>If you are interested in joining my group at SUAT, please send me an email at
+    <strong>dongsl@suat-sz.edu.cn</strong> with your CV, transcripts, and a brief description of your research interests.
+    Strong mathematical background and programming skills are preferred.</p>
+    <br>
+    <p>SUAT is located in <strong>Shenzhen</strong>, one of China's most dynamic innovation hubs, with close ties to
+    the Chinese Academy of Sciences and leading tech companies.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-block" style="margin-bottom:1.5rem">
+        <div class="contact-label">Email</div>
+        <div class="contact-value"><a href="mailto:dongsl@suat-sz.edu.cn">dongsl@suat-sz.edu.cn</a></div>
+      </div>
+      <div class="contact-block" style="margin-bottom:1.5rem">
+        <div class="contact-label">Office</div>
+        <div class="contact-value">Faculty of Computility Microelectronics (算力微电子学院)<br>Shenzhen University of Advanced Technology<br>No. 1 Gongchang Road, Guangming District, Shenzhen</div>
+      </div>
+    </div>
+    <div>
+      <div class="contact-block" style="margin-bottom:1.5rem">
+        <div class="contact-label">Academic Profiles</div>
+        <div class="contact-value">
+          <a href="https://scholar.google.com/citations?user=nD-QpuYAAAAJ&hl=en" target="_blank">Google Scholar</a><br>
+          <a href="https://dblp.org/pid/263/7064.html" target="_blank">DBLP</a><br>
+          <a href="https://orcid.org/0000-0001-7854-3417" target="_blank">ORCID: 0000-0001-7854-3417</a><br>
+          <a href="https://www.semanticscholar.org/author/Songlin-Dong/2106681370" target="_blank">Semantic Scholar</a>
+        </div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-label">Institutional Page</div>
+        <div class="contact-value">
+          <a href="https://cme.suat-sz.edu.cn/info/1095/1304.htm" target="_blank">SUAT Faculty Page</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">
+    © 2025 Songlin Dong · Shenzhen University of Advanced Technology
+  </div>
+  <div class="footer-copy">
+    Last updated: March 2026
+  </div>
+</footer>
+
 </body>
 </html>
